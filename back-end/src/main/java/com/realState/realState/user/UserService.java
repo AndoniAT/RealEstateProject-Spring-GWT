@@ -38,7 +38,7 @@ public class UserService {
 
 	// We use the setters methods in the UserApp class to update the object
 	@Transactional
-	public void updateStudent(Long userId, String firstname, String lastname, String email) {
+	public void updateUser(Long userId, String firstname, String lastname, String email) {
 		UserApp usr = this.userRepository.findById(userId)
 		.orElseThrow(() -> new IllegalStateException( "User with Id: " + userId + " does not exists"  ));
 		
@@ -59,5 +59,14 @@ public class UserService {
 		usr.setEmail(email);
 		}
 		
+	}
+
+	public void deleteUser(Long id) {
+		boolean exists = this.userRepository.existsById(id);
+		if( !exists  ) {
+			throw new IllegalStateException("User with Id: " + id + " does not exists" );
+		}
+		
+		this.userRepository.deleteById(id);
 	}
 }

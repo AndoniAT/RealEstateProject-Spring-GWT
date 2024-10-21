@@ -2,6 +2,7 @@ package com.realState.realState.user;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +40,12 @@ public class UserController {
 			@RequestParam(required = false) String lastname,
 			@RequestParam(required = false) String email
 			) {
-		this.userService.updateStudent(userId, firstname, lastname, email);
+		this.userService.updateUser(userId, firstname, lastname, email);
+	}
+	
+	@DeleteMapping(path = "{userId}")
+	public void deleteUser(@PathVariable("userId") Long id){
+		this.userService.deleteUser(id);
 	}
 
 }

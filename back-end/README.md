@@ -78,4 +78,7 @@ To test the crud operations you can use postman as follows :
 > PUT : 
     http://localhost:8082/api/users/:id?firstname=Somefirstname&email=someemail@example.com
 
+> DELETE : 
+    http://localhost:8082/api/users/:id
+
 
