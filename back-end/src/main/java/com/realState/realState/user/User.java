@@ -13,9 +13,19 @@ public class User {
 		
 	}
 
-	public User(String name, String email, LocalDate dob) {
+	public User(Long id, String firstname, String lastname, String email, LocalDate dob) {
 		super();
-		this.firstname = name;
+		this.id = id;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
+		this.dob = dob;
+	}
+
+	public User(String firstname, String lastname, String email, LocalDate dob) {
+		super();
+		this.firstname = firstname;
+		this.lastname = lastname;
 		this.email = email;
 		this.dob = dob;
 	}

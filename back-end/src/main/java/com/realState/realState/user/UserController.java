@@ -15,8 +15,8 @@ public class UserController {
 	@GetMapping
 	public List<User> getUsers() {
 		return List.of(
-				new User("Andoni", "andoniexemple@exemple.com", LocalDate.of(1996, Month.DECEMBER, 11)),
-				new User("Maria", "mariaexemple@exemple.com", LocalDate.of(2000, Month.FEBRUARY, 20))
+				new User(1L, "Andoni", "Alonso", "andoniexemple@exemple.com", LocalDate.of(1996, Month.DECEMBER, 11)),
+				new User(2L, "Maria", "Tort", "mariaexemple@exemple.com", LocalDate.of(2000, Month.FEBRUARY, 20))
 				);
 	}
 
