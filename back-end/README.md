@@ -75,4 +75,7 @@ To test the crud operations you can use postman as follows :
         "dob": "2004-12-17"
     }
 
+> PUT : 
+    http://localhost:8082/api/users/:id?firstname=Somefirstname&email=someemail@example.com
+
 
