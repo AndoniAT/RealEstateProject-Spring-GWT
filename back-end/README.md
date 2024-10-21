@@ -16,4 +16,6 @@ Java version: 17.0.1
 
 Project generated in : https://start.spring.io
 
+To see the project executed : http://localhost:8082
+
 
