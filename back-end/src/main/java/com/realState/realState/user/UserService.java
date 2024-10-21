@@ -1,6 +1,7 @@
 package com.realState.realState.user;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,5 +21,16 @@ public class UserService {
 
 	public List<UserApp> getUsers() {
 		return this.userRepository.findAll();
+	}
+
+	public void addUser(UserApp user) {
+		Optional<UserApp> userOptional = this.userRepository.findUserByEmail(user.getEmail());
+		if(userOptional.isPresent()) {
+			throw new IllegalStateException("Email taken");
+		}
+		
+		this.userRepository.save(user);
+		System.out.println("Added : " + user);
+		
 	}
 }

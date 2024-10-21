@@ -56,4 +56,23 @@ Connect to your database:
 Check relations:
 > \d
 
+<h5>CRUD OPERATIONS HELP</h5>
+
+To test the crud operations you can use postman as follows :
+
+<h6>UserApp class</h6>
+
+> GET : 
+    http://localhost:8082/api/users
+
+> POST : 
+    http://localhost:8082/api/users
+    <i>body example :</i>
+    {
+        "firstname": "George",
+        "lastname": "Carrillo",
+        "email": "george@example.com",
+        "dob": "2004-12-17"
+    }
+
 
