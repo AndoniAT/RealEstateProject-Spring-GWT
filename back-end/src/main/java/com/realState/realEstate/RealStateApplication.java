@@ -1,4 +1,4 @@
-package com.realState.realState;
+package com.realState.realEstate;
 
 import java.util.List;
 

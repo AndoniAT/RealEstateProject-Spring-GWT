@@ -1,4 +1,4 @@
-package com.realState.realState.user;
+package com.realState.realEstate.user;
 
 import java.time.LocalDate;
 import java.time.Period;

@@ -1,4 +1,4 @@
-package com.realState.realState.user;
+package com.realState.realEstate.user;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;

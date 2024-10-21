@@ -2,12 +2,12 @@
 style="background:#e7e7e7;
 text-align:center;
 padding: 15px 0;"
->Real State <br/>Spring</h1>
+>Real Estate <br/>Spring</h1>
 
 <h5>Author: Andoni Alonso Tort</h5>
 <h5>21/10/2024</h5>
 
-Back-end for CRUD Real State application.
+Back-end for CRUD Real Estate application.
 
 To change the port of the server, change server.port value in <i>src/main/resources/application.properties</i>
 
@@ -37,21 +37,21 @@ To see the project executed : http://localhost:8082
 <hr/>
 
 <h5>Database Help</h5>
-In order to connect corretly to databasem please create the realState database on your PostgreSQL.
+In order to connect corretly to databasem please create the realestate database on your PostgreSQL.
 
-> CREATE DATABASE realstate;
+> CREATE DATABASE realestate;
 
 Check list of roles :
 > \du 
 
 Give rights to your user
-> GRANT ALL  PRIVILEGES ON "realState" TO postgres
+> GRANT ALL  PRIVILEGES ON "realestate" TO postgres
 
 Check list of databases:
 > \l
 
 Connect to your database:
-> \c realstate
+> \c realestate
 
 Check relations:
 > \d
