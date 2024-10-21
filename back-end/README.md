@@ -11,11 +11,49 @@ Back-end for CRUD Real State application.
 
 To change the port of the server, change server.port value in <i>src/main/resources/application.properties</i>
 
-Database used : PostgreSQL
-Java version: 17.0.1
+<table>
+    <tr>
+        <td>Database used</td>     
+        <td>PostgreSQL</td>     
+    </tr>
+    <tr>
+        <td>Database port</td>     
+        <td>5432</td>     
+    </tr>
+    <tr>
+        <td>Application port</td>     
+        <td>8082</td>     
+    </tr>
+    <tr>
+        <td>Java version</td>     
+        <td>17.0.1</td>     
+    </tr>
+</table>
 
 Project generated in : https://start.spring.io
 
 To see the project executed : http://localhost:8082
+
+<hr/>
+
+<h5>Database Help</h5>
+In order to connect corretly to databasem please create the realState database on your PostgreSQL.
+
+> CREATE DATABASE realstate;
+
+Check list of roles :
+> \du 
+
+Give rights to your user
+> GRANT ALL  PRIVILEGES ON "realState" TO postgres
+
+Check list of databases:
+> \l
+
+Connect to your database:
+> \c realstate
+
+Check relations:
+> \d
 
 
