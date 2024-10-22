@@ -9,8 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.realState.realEstate.user.UserApp;
 
 @RestController
 @RequestMapping(path = "api/estates")
@@ -29,6 +33,8 @@ public class EstateController {
 	        .map(estate -> {
 	        	Map<String, Object> response = new HashMap<>();
 	    	    response.put("id", estate.getId() );
+	    	    response.put("title", estate.getTitle() );
+	    	    response.put("description", estate.getDescription() );
 	    	    response.put("price", estate.getPrice());
 	    	    response.put("address", estate.getAddress());
 	    	    response.put("owner", estate.getOwner().getEmail());
@@ -36,6 +42,11 @@ public class EstateController {
 	    	    return response;
 	        } 
 	        ).collect(Collectors.toList());
+	}
+	
+	@PostMapping
+	public void postEstate(@RequestBody Estate estate) {
+		this.estateService.addEstate(estate);
 	}
 	
 	@DeleteMapping(path = "{estateId}")

@@ -86,3 +86,21 @@ To test the crud operations you can use postman as follows :
 
 > GET : 
     http://localhost:8082/api/estates
+
+> POST : 
+    http://localhost:8082/api/estates
+    <i>body example :</i>
+    {
+    "owner": {
+        "email": "andoniexemple@exemple.com"
+    },
+    "country": "France",
+	"city": "Nice",
+	"cp": "52587",
+	"number": "55",
+	"street": "Sartre",
+    "surface": 55,
+    "price": 500.5,
+    "description": "New appartment in the south",
+    "title": "NEW EMPTY APPARTMENT"
+  }
