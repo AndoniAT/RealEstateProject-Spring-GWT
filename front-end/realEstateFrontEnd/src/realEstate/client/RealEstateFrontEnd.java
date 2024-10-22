@@ -4,9 +4,13 @@ import java.util.List;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -70,15 +74,6 @@ public class RealEstateFrontEnd implements EntryPoint {
 		closeButton.getElement().setId("closeButton");
 		final Label textToServerLabel = new Label();
 		final HTML serverResponseLabel = new HTML();
-		VerticalPanel dialogVPanel = new VerticalPanel();
-		dialogVPanel.addStyleName("dialogVPanel");
-		dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
-		dialogVPanel.add(textToServerLabel);
-		dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
-		dialogVPanel.add(serverResponseLabel);
-		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-		dialogVPanel.add(closeButton);
-		dialogBox.setWidget(dialogVPanel);
 
 		// Add a handler to close the DialogBox
 		closeButton.addClickHandler(new ClickHandler() {
@@ -235,6 +230,51 @@ public class RealEstateFrontEnd implements EntryPoint {
 					price.setText(est.getPrice() + " euros");
 					priceContainer.add(price);
 					
+					// ==== Buttons Action Section ===
+					class MyInfoButton implements ClickHandler {
+
+						@Override
+						public void onClick(ClickEvent event) {
+							VerticalPanel dialogVPanel = new VerticalPanel();
+							final DialogBox dialogBox = new DialogBox();
+							dialogBox.setAnimationEnabled(true);
+
+							final Button closeButton = new Button("Close");
+							
+							closeButton.addClickHandler(new ClickHandler() {
+								public void onClick(ClickEvent event) {
+									dialogBox.hide();
+								}
+							});
+
+							closeButton.getElement().setId("closeButton");
+							dialogVPanel.addStyleName("dialogVPanel");
+							dialogVPanel.add(new HTML("<b>Title : </b>"));
+							dialogVPanel.add(new Label(est.getTitle()));
+							dialogVPanel.add(new HTML("<b>Description : </b>"));
+							dialogVPanel.add(new Label(est.getDescription()));
+							dialogVPanel.add(new HTML("<b>Price : </b>"));
+							dialogVPanel.add(new Label(est.getPrice() + " euros"));
+							dialogVPanel.add(new HTML("<b>Surface : </b>"));
+							dialogVPanel.add(new Label(est.getSurface() + " m2"));
+							dialogVPanel.add(new HTML("<b>Address : </b>"));
+							dialogVPanel.add(new Label(est.getAddress()));
+							dialogVPanel.add(new HTML("<b>Owner : </b>"));
+							dialogVPanel.add(new Label(est.getOwner()));
+							//dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
+							//dialogVPanel.add(serverResponseLabel);
+							dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
+							dialogVPanel.add(closeButton);
+							dialogBox.setWidget(dialogVPanel);
+							
+							dialogBox.setText("Details");
+							dialogBox.center();
+							closeButton.setFocus(true);
+							
+						}
+						
+					}
+					
 					HorizontalPanel butonsContainer = new HorizontalPanel();
 					butonsContainer.addStyleName("buttonsContainer");
 					Button btnMoreInfo = new Button("More info");
@@ -245,6 +285,7 @@ public class RealEstateFrontEnd implements EntryPoint {
 					
 					btnMoreInfo.addStyleName("infoBtn");
 					btnMoreInfo.addStyleName("btn");
+					btnMoreInfo.addClickHandler(new MyInfoButton());
 					
 					butonsContainer.add(btnMoreInfo);
 					butonsContainer.add(btnDelete);

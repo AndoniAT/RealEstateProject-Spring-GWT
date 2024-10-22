@@ -12,25 +12,29 @@ public class Estat implements Serializable {
 	private String address;
 	private int surface;
 	
+	private String owner;
+
 	public Estat() {
 		
 	}
 
-	public Estat(Long id, String title, String description, double price, String address, int surface) {
+	public Estat(Long id, String title, String description, double price, String address, int surface, String owner) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.price = price;
 		this.address = address;
 		this.surface = surface;
+		this.owner = owner;
 	}
 
-	public Estat(String title, String description, double price, String address, int surface) {
+	public Estat(String title, String description, double price, String address, int surface, String owner) {
 		this.title = title;
 		this.description = description;
 		this.price = price;
 		this.address = address;
 		this.surface = surface;
+		this.owner = owner;
 	}
 
 	public String getTitle() {
@@ -81,7 +85,14 @@ public class Estat implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
 	
 	
 }
