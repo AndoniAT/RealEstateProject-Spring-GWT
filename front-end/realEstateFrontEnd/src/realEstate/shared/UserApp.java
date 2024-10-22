@@ -1,33 +1,37 @@
-package realEstate.server;
+package realEstate.shared;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
-public class UserApp {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class UserApp implements Serializable {
 	private Long id; // Id is a sequence generated one by one
 	private String firstname;
 	private String lastname;
 	private String email;
-	private LocalDate dob;
-    private List<Estate> estatesList;
+	private Date dob;
 
-	public UserApp(Long id, String firstname, String lastname, String email, LocalDate dob, List<Estate> estatesList) {
+	public UserApp() {
+	}
+	
+	public UserApp(Long id, String firstname, String lastname, String email, Date dob ) {
 		super();
 		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
 		this.dob = dob;
-		this.estatesList = estatesList;
 	}
 	
-	public UserApp(String firstname, String lastname, String email, LocalDate dob, List<Estate> estatesList) {
+	public UserApp(String firstname, String lastname, String email, Date dob ) {
 		super();
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
 		this.dob = dob;
-		this.estatesList = estatesList;
 	}
 
 	public Long getId() {
@@ -62,20 +66,12 @@ public class UserApp {
 		this.email = email;
 	}
 
-	public LocalDate getDob() {
+	public Date getDob() {
 		return dob;
 	}
 
-	public void setDob(LocalDate dob) {
+	public void setDob(Date dob) {
 		this.dob = dob;
-	}
-
-	public List<Estate> getEstatesList() {
-		return estatesList;
-	}
-
-	public void setEstatesList(List<Estate> estatesList) {
-		this.estatesList = estatesList;
 	}
     
 }

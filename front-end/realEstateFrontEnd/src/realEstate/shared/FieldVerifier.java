@@ -21,7 +21,10 @@ package realEstate.shared;
  * </p>
  */
 public class FieldVerifier {
-
+	
+	public FieldVerifier() {
+		
+	}
 	/**
 	 * Verifies that the specified name is valid for our service.
 	 * 

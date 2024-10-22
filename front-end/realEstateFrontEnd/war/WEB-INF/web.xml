@@ -8,14 +8,15 @@
   <inherits name="com.google.gwt.http.HTTP" />
 
   <!-- Servlets -->
-  <!--<servlet>
-    <servlet-name>estateService</servlet-name>
+  <servlet>
+    <servlet-name>estateServlet</servlet-name>
     <servlet-class>realEstate.server.EstateServiceImpl</servlet-class>
   </servlet>
+  
   <servlet-mapping>
-    <servlet-name>estateService</servlet-name>
-    <url-pattern>realEstate.client/estateService</url-pattern>
-  </servlet-mapping>-->
+    <servlet-name>estateServlet</servlet-name>
+    <url-pattern>/realestatefrontend/estate</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <servlet-name>greetServlet</servlet-name>

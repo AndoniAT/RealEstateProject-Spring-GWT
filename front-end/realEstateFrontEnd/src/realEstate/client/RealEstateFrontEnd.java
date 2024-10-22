@@ -1,26 +1,20 @@
 package realEstate.client;
 
-import realEstate.shared.FieldVerifier;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.json.client.JSONParser;
-import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.http.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
+
+import realEstate.shared.Estat;
+import realEstate.shared.FieldVerifier;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -37,54 +31,17 @@ public class RealEstateFrontEnd implements EntryPoint {
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
 	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
+	private final EstateServiceAsync estateServiceAsync = GWT.create(EstateService.class);
 
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		String url = "http://localhost:8082/api/estates";
-		//RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, url);
 		final TextBox nameField = new TextBox();
   	  	nameField.setText("GWT User");
   	  	RootPanel.get("nameFieldContainer").add(nameField);
-		try {
-		  Request request = builder.sendRequest(null, new RequestCallback() {
-		    public void onError(Request request, Throwable exception) {
-		    	System.out.println("try to connect error!!!");
-		    	nameField.setText("try to connect error!!!");
-		    }
-
-		    public void onResponseReceived(Request request, Response response) {
-		      if (200 == response.getStatusCode()) {
-		    	  System.out.println("Cheeeeck");
-		    	  System.out.println(response);
-		    	  nameField.setText("Code :" + response.getStatusCode()+"" );
-		    	  String jsonResponse = response.getText();
-		    	  nameField.setText("Response :" + jsonResponse+"" );
-		          
-		          // Analyze json
-		          /*JSONValue parsed = JSONParser.parseStrict(jsonResponse);
-		          JSONArray estatesArray = parsed.isArray();
-		          
-		          if (estatesArray != null) {
-		              for (int i = 0; i < estatesArray.size(); i++) {
-		                  JSONObject estateObject = estatesArray.get(i).isObject();
-		                  Estate estate = new Estate(
-		                		  
-		                		  );*/
-		          
-		          
-		          // Process the response in response.getText()
-		      } else {
-		    	  nameField.setText("Coudnt connect :" + response.getStatusCode()+"" );
-		        // Handle the error.  Can get the status text from response.getStatusText()
-		      }
-		    }
-		  });
-		} catch (RequestException e) {
-		  // Couldn't connect to server
-		}
+  	  	chargeEstates();
+		
 		/*final Button sendButton = new Button("Send");
 		final TextBox nameField = new TextBox();
 		nameField.setText("GWT User");
@@ -188,4 +145,85 @@ public class RealEstateFrontEnd implements EntryPoint {
 		sendButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);*/
 	}
+	
+	public void chargeEstates() {
+		String url = "http://localhost:8082/api/estates";
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, url);
+		Label l = new Label();
+		l.setText("charge");
+		RootPanel.get("estatesContainer").add(l);
+
+		RequestCallback cb = new RequestCallback() {
+		    public void onError(Request request, Throwable exception) {
+		    	throw new IllegalStateException(exception) ;
+		    }
+
+		    public void onResponseReceived(Request request, Response response) {
+		      if (200 == response.getStatusCode()) {
+		    	  l.setText(200+"");
+		    	  String jsonResponse = response.getText();
+		    	  //l.setText(jsonResponse);
+		    	  // Parse date
+		    	  estateServiceAsync.parseEstates(jsonResponse, new AsyncCallback<List<Estat>>() {
+						public void onFailure(Throwable caught) {
+							// Show the RPC error message to the user
+							
+							l.setText("Remote Procedure Call - Failure" + caught);
+							
+						}
+
+						public void onSuccess(List<Estat> result) {
+							
+							//l.setText("Check title" + result.get(0).getTitle());
+							displayEstates(result);
+							/*Estat e = result.get(0);
+							l.setText(e.getTitle());*/
+							//l.setText("Remote Procedure Call " + result.get(0).getTitle());
+						}
+					});
+
+		    	  /*estateServiceAsync.parseEstates(jsonResponse, new AsyncCallback<String>() {
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// Show the RPC error message to the user
+						//l.setText("Remote Procedure Call - Failure" + caught.getMessage());
+					}
+
+					@Override
+					public void onSuccess(String result) {
+						l.setText("Parsed!" + result );
+						//displayEstates(result);
+						
+					}
+				} );*/
+
+                  //List<Estate> estates = parseEstates(jsonResponse);
+                  //displayEstates(estates);
+		      } else {
+		    	  throw new IllegalStateException("Coudnt connect :" + response.getStatusCode() );
+		      }
+		    }
+		  };
+
+		try {
+			  Request request = builder.sendRequest(null, cb);
+			} catch (RequestException e) {
+			  // Couldn't connect to server
+				throw new IllegalStateException("Coudnt connect :" + e );
+			}
+	}
+	
+	/**
+	 * Create elements in HTML for each estate
+	 * @param estates
+	 */
+	public void displayEstates(List<Estat> estates) {
+		estates.forEach(est -> {
+			Label l = new Label();
+			l.setText(est.getTitle() + " ");
+			RootPanel.get("estatesContainer").add(l);
+		});
+	}
+
 }

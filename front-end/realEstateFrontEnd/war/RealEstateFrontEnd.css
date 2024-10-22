@@ -43,3 +43,9 @@ h1 {
 #closeButton {
   margin: 15px 6px 6px;
 }
+
+#estatesContainer {
+  width: 100%;
+  min-height: 50px;
+  background-color: crimson;
+}
