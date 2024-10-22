@@ -12,6 +12,8 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+import java.io.File;
 import java.lang.reflect.Type;
 
 import realEstate.client.EstateService;
@@ -32,9 +34,25 @@ public class EstateServiceImpl extends RemoteServiceServlet implements EstateSer
 	    List<Estat> estateNames = gson.fromJson(jsonResponse, estateListType);
 	    return estateNames;
 	}
-
+	
+	/**
+	 * Get all the images in directory images/
+	 * @return List<String>  with all the image names
+	 */
 	@Override
-	public String sayHello() throws IllegalArgumentException {
-		return "heeeelloo";
-	}
+	public List<String> getImageNames() {
+        String path = getServletContext().getRealPath("/images");
+        File folder = new File(path);
+        File[] listOfFiles = folder.listFiles();
+
+        List<String> imageNames = new ArrayList<>();
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                if (file.isFile() ) {
+                    imageNames.add(file.getName());
+                }
+            }
+        }
+        return imageNames;
+    }
 }

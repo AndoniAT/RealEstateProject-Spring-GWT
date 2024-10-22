@@ -59,7 +59,7 @@ h1 {
 
 #estatesContainer .containerEstate {
   background-color: rgba(207, 207, 207, 0.458);
-  min-height: 200px;
+  min-height: 300px;
   padding: 0;
   min-width: 20%;
   max-width: 20%;
@@ -70,13 +70,43 @@ h1 {
   box-shadow: 9px 10px 15px -6px #363636;
   overflow: hidden;
 }
+#estatesContainer .containerEstate tr{
+  height: fit-content;
+  display: inline-table;
+  width: 100%;
+}
 
-#estatesContainer .containerEstate .imageContainer {
+
+
+#estatesContainer .containerEstate:hover{
+  scale: 105%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#estatesContainer .containerEstate .bodyContainerEstate {
+  padding: 20px;
+  background-color: rgb(198, 195, 196);
+  max-height: 200px;
+  min-height: 200px;
+  height: 200px;
+  width: 100%;
+}
+
+#estatesContainer .containerEstate .bodyContainerEstate .imageSectionContainer {
+  width: 100%;
+}
+
+#estatesContainer .containerEstate .bodyContainerEstate .imageContainer {
   text-align: center;
-  margin: 20px;
   border-radius: 20px;
   overflow: hidden;
+  margin: 0 auto;
+  background-color: black;
+  background-color: black;
+  width: 100%;
 }
+
 #estatesContainer .containerEstate .titleEstateContainer {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.89);
@@ -92,9 +122,50 @@ h1 {
 
 #estatesContainer .containerEstate img {
   width: 100%;
-  height: 100%;
+  height: 150px;
+  object-fit: cover;
 }
 
 #errorMessagePage {
   color: red;
+}
+
+#estatesContainer .containerEstate .textContainerDetail {
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+}
+
+#estatesContainer .containerEstate .textContainerDetail .gwt-Label{
+  text-align: center;
+  font-size: 1rem;
+  
+}
+#estatesContainer .containerEstate .buttonsContainer {
+  margin-top: 10px;
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  justify-items: center;
+}
+
+#estatesContainer .containerEstate .buttonsContainer button {
+  margin: 0 10px;
+}
+
+.gwt-Button {
+  border: 1px solid rgba(0, 0, 0, 0.495) !important;
+}
+
+.gwt-Button:hover {
+  scale: 104%;
+}
+
+.gwt-Button.deleteBtn {
+  background: rgb(191, 35, 35) !important;
+  color: white;
+}
+
+.gwt-Button.infoBtn {
+  background: rgba(50, 127, 190, 0.58);
 }

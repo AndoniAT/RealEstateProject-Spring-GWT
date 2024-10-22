@@ -10,5 +10,5 @@ import realEstate.shared.Estat;
 
 public interface EstateServiceAsync {
 	void parseEstates(String estates, AsyncCallback<List<Estat>> callback) throws IllegalArgumentException;
-	void sayHello(AsyncCallback<String> callback) throws IllegalArgumentException;
+	void getImageNames(AsyncCallback<List<String>> callback) throws IllegalArgumentException;
 }

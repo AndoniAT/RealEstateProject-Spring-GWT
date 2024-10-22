@@ -12,5 +12,6 @@ import realEstate.shared.Estat;
 @RemoteServiceRelativePath("estate")
 public interface EstateService extends RemoteService {
 	List<Estat> parseEstates(String estates) throws IllegalArgumentException;
-	String sayHello() throws IllegalArgumentException;
+	List<String> getImageNames() throws IllegalArgumentException;
+	
 }

@@ -6,6 +6,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -190,24 +191,73 @@ public class RealEstateFrontEnd implements EntryPoint {
 	 * @param estates
 	 */
 	public void displayEstates(List<Estat> estates) {
-		estates.forEach(est -> {
-			VerticalPanel containerEstate = new VerticalPanel();
-			containerEstate.addStyleName("containerEstate");
+		estateServiceAsync.getImageNames(new AsyncCallback<List<String>>() {
 
-			HorizontalPanel titleContainer = new HorizontalPanel();
-			Label title = new Label();
-			titleContainer.addStyleName("titleEstateContainer");
-			title.setText(est.getTitle());
-			titleContainer.add(title);
+			@Override
+			public void onFailure(Throwable caught) {
+				errorMessagePage.setText("Error reading images directory" );
+			}
+
+			@Override
+			public void onSuccess(List<String> images) {
+				// Show estates
+				estates.forEach(est -> {
+					VerticalPanel containerEstate = new VerticalPanel();
+					containerEstate.addStyleName("containerEstate");
+
+					HorizontalPanel titleContainer = new HorizontalPanel();
+					Label title = new Label();
+					titleContainer.addStyleName("titleEstateContainer");
+					title.setText(est.getTitle());
+					titleContainer.add(title);
+					
+					VerticalPanel bodyContainerEstate = new VerticalPanel();
+					bodyContainerEstate.addStyleName("bodyContainerEstate");
+
+					int randomIndex = (int) (Math.random() * images.size());
+		            String randomImageName = images.get(randomIndex);
+					Image img = new Image("images/" + randomImageName);
+					
+					HorizontalPanel imageSectionContainer = new HorizontalPanel();
+					imageSectionContainer.addStyleName("imageSectionContainer");
+
+					HorizontalPanel imageContainer = new HorizontalPanel();
+					imageContainer.addStyleName("imageContainer");
+					imageContainer.add(img);
+					imageSectionContainer.add(imageContainer);
+					
+					bodyContainerEstate.add(imageSectionContainer);
+					
+					HorizontalPanel priceContainer = new HorizontalPanel();
+					priceContainer.addStyleName("textContainerDetail");
+					
+					Label price = new Label();
+					price.setText(est.getPrice() + " euros");
+					priceContainer.add(price);
+					
+					HorizontalPanel butonsContainer = new HorizontalPanel();
+					butonsContainer.addStyleName("buttonsContainer");
+					Button btnMoreInfo = new Button("More info");
+					Button btnDelete = new Button("Delete");
+					
+					btnDelete.addStyleName("deleteBtn");
+					btnDelete.addStyleName("btn");
+					
+					btnMoreInfo.addStyleName("infoBtn");
+					btnMoreInfo.addStyleName("btn");
+					
+					butonsContainer.add(btnMoreInfo);
+					butonsContainer.add(btnDelete);
+					
+					containerEstate.add(titleContainer);
+					containerEstate.add(bodyContainerEstate);
+					containerEstate.add(priceContainer);
+					containerEstate.add(butonsContainer);
+
+					RootPanel.get("estatesContainer").add(containerEstate);
+				});
+			}
 			
-			Image img = new Image("images/barcelona.png");
-			HorizontalPanel imageContainer = new HorizontalPanel();
-			imageContainer.addStyleName("imageContainer");
-			imageContainer.add(img);
-			
-			containerEstate.add(titleContainer);
-			containerEstate.add(imageContainer);
-			RootPanel.get("estatesContainer").add(containerEstate);
 		});
 	}
 
