@@ -2,11 +2,17 @@ package com.realState.realEstate.user;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
+import com.realState.realEstate.Estate.Estate;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -33,6 +39,9 @@ public class UserApp {
 	// Transient is because we don't want this attribute to be created in our database's table
 	@Transient
 	private Integer age;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<Estate> estatesList;
 
 	public UserApp() {
 	}
@@ -101,6 +110,18 @@ public class UserApp {
 
 	public void setAge(Integer age) {
 		this.age = age;
+	}
+
+	public List<Estate> getEstatesList() {
+		return estatesList;
+	}
+	
+	public void addEstateToList(Estate e) {
+		this.estatesList.add(e);
+	}
+
+	public void setEstatesList(List<Estate> estatesList) {
+		this.estatesList = estatesList;
 	}
 
 	@Override
