@@ -2,7 +2,10 @@ package com.realState.realEstate.user;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.realState.realEstate.Estate.Estate;
 
@@ -128,6 +131,21 @@ public class UserApp {
 	public String toString() {
 		return "User [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + ", dob="
 				+ dob + ", age=" + age + "]";
+	}
+	
+	public Map<String, Object> toJson(){
+		UserApp user = this;
+		Map<String, Object> response = new HashMap<>();
+	    response.put("id", user.getId() );
+	    response.put("firstname", user.getFirstname());
+	    response.put("lastname", user.getLastname());
+	    response.put("email", user.getEmail());
+	    response.put("dob", user.getDob());
+	    
+	    List<Estate> estates = user.getEstatesList();
+	    List<Long> estates_ids = estates.stream().map( est -> est.getId() ).collect(Collectors.toList());
+	    response.put("Estates", estates_ids);
+	    return response;
 	}
 	
 	

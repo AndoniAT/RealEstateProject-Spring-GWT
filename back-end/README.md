@@ -65,6 +65,9 @@ To test the crud operations you can use postman as follows :
 > GET : 
     http://localhost:8082/api/users
 
+> GET By Id : 
+    http://localhost:8082/api/users/:id
+
 > POST : 
     http://localhost:8082/api/users
     <i>body example :</i>
@@ -87,6 +90,9 @@ To test the crud operations you can use postman as follows :
 > GET : 
     http://localhost:8082/api/estates
 
+> GET By Id : 
+    http://localhost:8082/api/estates/:id
+
 > POST : 
     http://localhost:8082/api/estates
     <i>body example :</i>
@@ -104,3 +110,6 @@ To test the crud operations you can use postman as follows :
     "description": "New appartment in the south",
     "title": "NEW EMPTY APPARTMENT"
   }
+
+> DELETE : 
+    http://localhost:8082/api/estates/:id

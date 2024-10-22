@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.realState.realEstate.Estate.Estate;
+
 //@Component or @Service
 // is to indicate that this class has to be instanciated
 //both are the same thing but service is better for the semantic here
@@ -68,5 +70,15 @@ public class UserService {
 		}
 		
 		this.userRepository.deleteById(id);
+	}
+
+	public UserApp getUser(Long id) {
+		Optional<UserApp> userOptional = this.userRepository.findById(id);
+
+		if(!userOptional.isPresent()) {
+			throw new IllegalStateException("User does not exists");
+		}
+		return userOptional.get();
+		
 	}
 }

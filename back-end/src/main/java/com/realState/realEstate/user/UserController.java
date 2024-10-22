@@ -30,21 +30,13 @@ public class UserController {
 	@GetMapping
 	public List<Map<String, Object>> getUsers() {
 		List<UserApp> users = this.userService.getUsers();
-	    return users.stream()
-	        .map(user -> {
-	        	Map<String, Object> response = new HashMap<>();
-	    	    response.put("id", user.getId() );
-	    	    response.put("firstname", user.getFirstname());
-	    	    response.put("lastname", user.getLastname());
-	    	    response.put("email", user.getEmail());
-	    	    response.put("dob", user.getDob());
-	    	    
-	    	    List<Estate> estates = user.getEstatesList();
-	    	    List<Long> estates_ids = estates.stream().map( est -> est.getId() ).collect(Collectors.toList());
-	    	    response.put("Estates", estates_ids);
-	    	    return response;
-	        } 
-	        ).collect(Collectors.toList());
+	    return users.stream().map(user -> user.toJson() ).collect(Collectors.toList());
+	}
+	
+	@GetMapping(path = "{userId}")
+	public Map<String, Object> getUser(@PathVariable("userId") Long id) {
+		UserApp user = this.userService.getUser(id);
+	    return user.toJson();
 	}
 	
 	@PostMapping
