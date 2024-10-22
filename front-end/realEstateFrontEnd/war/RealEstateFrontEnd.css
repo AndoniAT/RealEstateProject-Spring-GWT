@@ -16,7 +16,7 @@ body {
 h1 {
   font-size: 2em;
   font-weight: bold;
-  color: #777777;
+  color: rgba(255, 255, 255, 0.807);
   margin: 40px 0px 70px;
   text-align: center;
 }
@@ -47,5 +47,54 @@ h1 {
 #estatesContainer {
   width: 100%;
   min-height: 50px;
-  background-color: crimson;
+  background-color: rgba(176, 176, 176, 0.403);
+  display: inline-flex;
+  display: inline-flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#estatesContainer .containerEstate {
+  background-color: rgba(207, 207, 207, 0.458);
+  min-height: 200px;
+  padding: 0;
+  min-width: 20%;
+  max-width: 20%;
+  margin: 20px;
+  border-radius: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.542);
+  -webkit-box-shadow: 9px 10px 15px -6px #363636; 
+  box-shadow: 9px 10px 15px -6px #363636;
+  overflow: hidden;
+}
+
+#estatesContainer .containerEstate .imageContainer {
+  text-align: center;
+  margin: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+#estatesContainer .containerEstate .titleEstateContainer {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.89);
+  border-bottom: 3px solid rgba(0, 0, 0, 0.547);
+  text-align: center;
+  color: white;
+}
+
+#estatesContainer .containerEstate .titleEstateContainer .gwt-Label{
+  text-align: center;
+  font-size: 1rem;
+}
+
+#estatesContainer .containerEstate img {
+  width: 100%;
+  height: 100%;
+}
+
+#errorMessagePage {
+  color: red;
 }
