@@ -62,4 +62,15 @@ public class EstateService {
 		
 	}
 
+
+	public Estate getEstate(Long id) {
+		Optional<Estate> estateOptional = this.estateRepository.findById(id);
+
+		if(!estateOptional.isPresent()) {
+			throw new IllegalStateException("Estate does not exists");
+		}
+		return estateOptional.get();
+		
+	}
+
 }

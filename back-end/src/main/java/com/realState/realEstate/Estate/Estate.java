@@ -1,5 +1,8 @@
 package com.realState.realEstate.Estate;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.realState.realEstate.user.UserApp;
 
 import jakarta.persistence.CascadeType;
@@ -168,6 +171,19 @@ public class Estate {
 
 	public void setCity(String city) {
 		this.city = city;
+	}
+	
+	public Map<String, Object> toJson() {
+		Estate estate = this;
+		Map<String, Object> response = new HashMap<>();
+	    response.put("id", estate.getId() );
+	    response.put("title", estate.getTitle() );
+	    response.put("description", estate.getDescription() );
+	    response.put("price", estate.getPrice());
+	    response.put("address", estate.getAddress());
+	    response.put("owner", estate.getOwner().getEmail());
+	    response.put("surface", estate.getSurface());
+	    return response;
 	}
 	
 	
