@@ -49,7 +49,6 @@ public class UserController {
 	
 	@PostMapping
 	public void postUser(@RequestBody UserApp user) {
-		System.out.println("addddd!!");
 		this.userService.addUser(user);
 	}
 	

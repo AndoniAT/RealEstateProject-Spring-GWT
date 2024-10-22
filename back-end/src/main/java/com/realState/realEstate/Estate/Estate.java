@@ -39,7 +39,7 @@ public class Estate {
 	@Transient
 	private String address;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
     @JoinColumn(name = "owner_id")
 	private UserApp owner;
 	

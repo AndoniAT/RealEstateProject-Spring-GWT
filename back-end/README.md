@@ -81,4 +81,8 @@ To test the crud operations you can use postman as follows :
 > DELETE : 
     http://localhost:8082/api/users/:id
 
+<br/>
+<h6>Estate class</h6>
 
+> GET : 
+    http://localhost:8082/api/estates
