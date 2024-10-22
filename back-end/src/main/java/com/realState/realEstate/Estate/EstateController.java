@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import com.realState.realEstate.user.UserApp;
 
 @RestController
 @RequestMapping(path = "api/estates")
+@CrossOrigin(origins = {"http://127.0.0.1:8888", "http://127.0.0.1:9876"})
 public class EstateController {
 	private final EstateService estateService;
 	

@@ -8,6 +8,11 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONValue;
+import com.google.gwt.http.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -37,7 +42,50 @@ public class RealEstateFrontEnd implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		final Button sendButton = new Button("Send");
+		String url = "http://localhost:8082/api/estates";
+		//RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, url);
+		final TextBox nameField = new TextBox();
+  	  	nameField.setText("GWT User");
+  	  	RootPanel.get("nameFieldContainer").add(nameField);
+		try {
+		  Request request = builder.sendRequest(null, new RequestCallback() {
+		    public void onError(Request request, Throwable exception) {
+		    	System.out.println("try to connect error!!!");
+		    	nameField.setText("try to connect error!!!");
+		    }
+
+		    public void onResponseReceived(Request request, Response response) {
+		      if (200 == response.getStatusCode()) {
+		    	  System.out.println("Cheeeeck");
+		    	  System.out.println(response);
+		    	  nameField.setText("Code :" + response.getStatusCode()+"" );
+		    	  String jsonResponse = response.getText();
+		    	  nameField.setText("Response :" + jsonResponse+"" );
+		          
+		          // Analyze json
+		          /*JSONValue parsed = JSONParser.parseStrict(jsonResponse);
+		          JSONArray estatesArray = parsed.isArray();
+		          
+		          if (estatesArray != null) {
+		              for (int i = 0; i < estatesArray.size(); i++) {
+		                  JSONObject estateObject = estatesArray.get(i).isObject();
+		                  Estate estate = new Estate(
+		                		  
+		                		  );*/
+		          
+		          
+		          // Process the response in response.getText()
+		      } else {
+		    	  nameField.setText("Coudnt connect :" + response.getStatusCode()+"" );
+		        // Handle the error.  Can get the status text from response.getStatusText()
+		      }
+		    }
+		  });
+		} catch (RequestException e) {
+		  // Couldn't connect to server
+		}
+		/*final Button sendButton = new Button("Send");
 		final TextBox nameField = new TextBox();
 		nameField.setText("GWT User");
 		final Label errorLabel = new Label();
@@ -85,25 +133,22 @@ public class RealEstateFrontEnd implements EntryPoint {
 
 		// Create a handler for the sendButton and nameField
 		class MyHandler implements ClickHandler, KeyUpHandler {
-			/**
-			 * Fired when the user clicks on the sendButton.
-			 */
+			// Fired when the user clicks on the sendButton.
+			 
 			public void onClick(ClickEvent event) {
 				sendNameToServer();
 			}
 
-			/**
-			 * Fired when the user types in the nameField.
-			 */
+			// Fired when the user types in the nameField.
+			 
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					sendNameToServer();
 				}
 			}
 
-			/**
-			 * Send the name from the nameField to the server and wait for a response.
-			 */
+			// Send the name from the nameField to the server and wait for a response.
+			 
 			private void sendNameToServer() {
 				// First, we validate the input.
 				errorLabel.setText("");
@@ -141,6 +186,6 @@ public class RealEstateFrontEnd implements EntryPoint {
 		// Add a handler to send the name to the server
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
-		nameField.addKeyUpHandler(handler);
+		nameField.addKeyUpHandler(handler);*/
 	}
 }

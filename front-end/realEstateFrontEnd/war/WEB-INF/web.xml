@@ -5,7 +5,18 @@
          version="2.5"
          xmlns="http://java.sun.com/xml/ns/javaee">
 
+  <inherits name="com.google.gwt.http.HTTP" />
+
   <!-- Servlets -->
+  <!--<servlet>
+    <servlet-name>estateService</servlet-name>
+    <servlet-class>realEstate.server.EstateServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>estateService</servlet-name>
+    <url-pattern>realEstate.client/estateService</url-pattern>
+  </servlet-mapping>-->
+
   <servlet>
     <servlet-name>greetServlet</servlet-name>
     <servlet-class>realEstate.server.GreetingServiceImpl</servlet-class>
