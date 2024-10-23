@@ -192,11 +192,32 @@ h1 {
   margin-left: 3%;
 }
 
-#createEstate button {
+#createEstate button, .formContainer .createButton {
   background: rgba(7, 128, 7, 0.677);
   color: white;
 }
 
 .hide {
   display: none;
+}
+
+.formContainer {
+  background: rgba(96, 95, 95, 0.221);
+  margin: 0 auto;
+  padding: 50px;
+  border-radius: 20px;
+  border: 1px solid rgba(97, 97, 97, 0.477);
+}
+
+.formContainer .gwt-Label {
+  margin-top: 10px;
+}
+
+.formContainer input {
+  border-radius: 5px;
+  height: 20px;
+}
+
+.formContainer .createButton {
+  margin-top: 10px;
 }

@@ -19,6 +19,11 @@ import java.lang.reflect.Type;
 import realEstate.client.EstateService;
 import realEstate.shared.Estat;
 
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONString;
+import com.google.gwt.json.client.JSONNumber;
+import com.google.gwt.json.client.JSONValue;
+
 @SuppressWarnings("serial")
 public class EstateServiceImpl extends RemoteServiceServlet implements EstateService {
 
@@ -33,6 +38,25 @@ public class EstateServiceImpl extends RemoteServiceServlet implements EstateSer
 	    Type estateListType = new TypeToken<List<Estat>>() {}.getType();
 	    List<Estat> estateNames = gson.fromJson(jsonResponse, estateListType);
 	    return estateNames;
+	}
+	
+	@Override
+	public String estateFormToJsonString(
+			String title, String description, double price, String country, String city, 
+			String cp, int number, String street, int surface, String owner) throws IllegalArgumentException {
+
+		return "{"
+		        + "\"owner\": {\"email\": \""+owner+"\"},"
+		        + "\"country\": \""+country+"\","
+		        + "\"city\": \""+city+"\","
+		        + "\"cp\": \""+cp+"\","
+		        + "\"number\": \""+number+"\","
+		        + "\"street\": \""+street+"\","
+		        + "\"surface\": "+surface+","
+		        + "\"price\": "+price+","
+		        + "\"description\": \""+description+"\","
+		        + "\"title\": \""+title+"\""
+		        + "}";
 	}
 	
 	/**

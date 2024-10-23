@@ -2,8 +2,10 @@ package realEstate.client;
 
 import java.util.List;
 
+import com.gargoylesoftware.htmlunit.javascript.host.html.HTMLDivElement;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -11,14 +13,17 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.http.client.*;
+import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.DoubleBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -83,6 +88,7 @@ public class RealEstateFrontEnd implements EntryPoint {
         homeButton.addStyleName("homeBtn");
         RootPanel.get("navBar").add(homeButton);
         RootPanel.get("createEstate").add(createEstateButton);
+        RootPanel.get("errorMessagePage").add(errorMessagePage);
 	}
 	
 	public void chargeEstates() {
@@ -319,7 +325,6 @@ public class RealEstateFrontEnd implements EntryPoint {
 		homePageEl.appendChild(estatesContainerEl);
 
 		RootPanel.get().getElement().appendChild(homePageEl);
-		RootPanel.get("errorMessagePage").add(errorMessagePage);
 		RootPanel.get("createEstatePage").getElement().removeFromParent();
   	  	chargeEstates();
 	}
@@ -329,10 +334,127 @@ public class RealEstateFrontEnd implements EntryPoint {
 		
 		Element createEstatePageEl = Document.get().createDivElement();
 		createEstatePageEl.setId("createEstatePage");
-		Label l = new Label("This is the Create Estate Page");
 		RootPanel.get().getElement().appendChild(createEstatePageEl);
+		
+		VerticalPanel form = new VerticalPanel();
+		form.addStyleName("formContainer");
 
-		RootPanel.get("createEstatePage").add(l);
+		VerticalPanel vp = new VerticalPanel();
+		
+		TextBox title = new TextBox();
+		TextBox description = new TextBox();
+		DoubleBox price = new DoubleBox();
+		IntegerBox surface = new IntegerBox();
+		TextBox street = new TextBox();
+		IntegerBox number = new IntegerBox();
+		TextBox cp = new TextBox();
+		TextBox city = new TextBox();
+		TextBox country = new TextBox();
+		TextBox owner = new TextBox();
+
+		vp.add(new Label("Title :"));
+		vp.add(title);
+		
+		vp.add(new Label("Description :"));
+		vp.add(description);
+		
+		vp.add(new Label("Price :"));
+		vp.add(price);
+		
+		vp.add(new Label("Surface :"));
+		vp.add(surface);
+		
+		vp.add(new Label("Street :"));
+		vp.add(street);
+		
+		vp.add(new Label("Number :"));
+		vp.add(number);
+		
+		vp.add(new Label("cp :"));
+		vp.add(cp);
+		
+		vp.add(new Label("City :"));
+		vp.add(city);
+		
+		vp.add(new Label("Country :"));
+		vp.add(country);
+		
+		vp.add(new Label("Owner :"));
+		vp.add(owner);
+		
+		Button submit = new Button("Create");
+		submit.addStyleName("createButton");
+		
+		class CreateEstateHandler implements ClickHandler {
+			// Fired when the user clicks on the sendButton.
+			
+			public void onClick(ClickEvent event) {
+				createEstate( new AsyncCallback<String>() {
+					
+					public void onFailure(Throwable caught) {
+						throw new IllegalStateException( caught );
+					}
+	
+					public void onSuccess(String result) {
+						// CREATED
+						History.newItem("home");
+					}
+				} );
+			}
+			
+			public void createEstate( AsyncCallback<String> callBack ) {
+				RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, URL_API );
+
+				RequestCallback cb = new RequestCallback() {
+				    public void onError(Request request, Throwable exception) {
+				    	errorMessagePage.setText( exception.getMessage() );
+				    }
+
+				    public void onResponseReceived(Request request, Response response) {
+				      if (200 == response.getStatusCode()) {
+				    	  String jsonResponse = response.getText();
+				    	  callBack.onSuccess(response.getStatusCode()+"");
+				      } else {
+				    	  errorMessagePage.setText(SERVER_ERROR + response.getStatusCode() );
+				      }
+				    }
+				  };
+				  
+			      estateServiceAsync.estateFormToJsonString(
+			    		  title.getText(), description.getText(), (double) price.getValue(), country.getText(), 
+			    		  city.getText(), cp.getText(), number.getValue(), street.getText(), surface.getValue(), owner.getText(), 
+			    		  new AsyncCallback<String>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								errorMessagePage.setText(caught + "");
+								
+							}
+
+							@Override
+							public void onSuccess(String body) {
+								builder.setHeader("Content-Type", "application/json");
+								try {
+									Request request = builder.sendRequest(body, cb);
+									} catch (RequestException e) {
+									  // Couldn't connect to server
+										callBack.onFailure( new IllegalStateException( SERVER_ERROR + e  ) );
+									}
+
+								
+							}
+			    	  
+			      });
+			}
+		}
+
+		form.add(vp);
+		form.add(submit);
+		
+		submit.addClickHandler(new CreateEstateHandler());
+		
+		RootPanel.get("createEstatePage").add(form);;
+
 
 	}
 
