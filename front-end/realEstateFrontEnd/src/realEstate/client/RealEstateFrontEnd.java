@@ -25,6 +25,7 @@ import realEstate.shared.Estat;
  */
 public class RealEstateFrontEnd implements EntryPoint {
 	private Label errorMessagePage = new Label();
+	private static final String URL_API = "http://localhost:8082/api/estates";
 
 	/**
 	 * The message displayed to the user when the server cannot be reached or
@@ -143,8 +144,7 @@ public class RealEstateFrontEnd implements EntryPoint {
 	}
 	
 	public void chargeEstates() {
-		String url = "http://localhost:8082/api/estates";
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, url);
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL_API);
 
 		RequestCallback cb = new RequestCallback() {
 		    public void onError(Request request, Throwable exception) {
@@ -181,6 +181,33 @@ public class RealEstateFrontEnd implements EntryPoint {
 			}
 	}
 	
+	public void deleteEstate( Long id, AsyncCallback<String> callBack ) {
+			RequestBuilder builder = new RequestBuilder(RequestBuilder.DELETE, URL_API + "/" + id);
+
+			RequestCallback cb = new RequestCallback() {
+			    public void onError(Request request, Throwable exception) {
+			    	callBack.onFailure( new IllegalStateException(exception) );
+			    }
+
+			    public void onResponseReceived(Request request, Response response) {
+			      if (200 == response.getStatusCode()) {
+			    	  String jsonResponse = response.getText();
+			    	  callBack.onSuccess(response.getStatusCode()+"");
+			      } else {
+			    	  callBack.onFailure( new IllegalStateException(SERVER_ERROR + response.getStatusCode() ) );
+			      }
+			    }
+			  };
+
+			try {
+				  Request request = builder.sendRequest(null, cb);
+				} catch (RequestException e) {
+				  // Couldn't connect to server
+					callBack.onFailure( new IllegalStateException( SERVER_ERROR + e  ) );
+				}
+	}
+
+
 	/**
 	 * Create elements in HTML for each estate
 	 * @param estates
@@ -275,6 +302,26 @@ public class RealEstateFrontEnd implements EntryPoint {
 						
 					}
 					
+					class MyDeleteButton implements ClickHandler {
+
+						@Override
+						public void onClick(ClickEvent event) {
+							deleteEstate( est.getId(), new AsyncCallback<String>() {
+									
+								public void onFailure(Throwable caught) {
+									throw new IllegalStateException( caught );
+								}
+
+								public void onSuccess(String result) {
+									RootPanel.get().remove(containerEstate);
+									containerEstate.removeFromParent();
+								}
+							} );
+							
+						}
+						
+						}
+
 					HorizontalPanel butonsContainer = new HorizontalPanel();
 					butonsContainer.addStyleName("buttonsContainer");
 					Button btnMoreInfo = new Button("More info");
@@ -282,6 +329,7 @@ public class RealEstateFrontEnd implements EntryPoint {
 					
 					btnDelete.addStyleName("deleteBtn");
 					btnDelete.addStyleName("btn");
+					btnDelete.addClickHandler(new MyDeleteButton());
 					
 					btnMoreInfo.addStyleName("infoBtn");
 					btnMoreInfo.addStyleName("btn");
