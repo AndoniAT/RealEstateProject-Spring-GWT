@@ -17,6 +17,21 @@ Contains the front-end project developped with GWT.
 
 <hr/>
 
+<b>Skills acquired in this project:</b>
+    - Management of classes between server and GWT.
+    - Asynchronous handling of server calls.
+    - HTTP requests for APIs developed in Spring.
+    - Use of Widgets in GWT.
+    - Route management.
+    - Interfaces Service and ServiceAsync.
+    - Class ServiceImpl in server.
+    - Database connection with PostgreSQL.
+    - API RESTFUL creation in Spring.
+    - Test data configuration in Spring.
+    - CrossOrigin acces.
+
+
+<hr/>
 
 <h5>Project description :</h5>
 
