@@ -10,6 +10,23 @@ body {
   background-color: rgb(35, 35, 35);
   width: 100%;
   margin-bottom: 20px;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+#navBar .gwt-Button {
+  display: inline-flex;
+  flex-direction: row;
+  align-self: center;
+  margin-left: 40px;
+  color: white;
+  background: transparent;
+  border: 1px solid rgb(122, 122, 122) !important;
+}
+
+#navBar .gwt-Button:hover {
+  border: 2px solid rgb(122, 122, 122) !important;
 }
 
 /** Example rules used by the template application (remove for your app) */
@@ -168,4 +185,18 @@ h1 {
 
 .gwt-Button.infoBtn {
   background: rgba(50, 127, 190, 0.58);
+}
+
+#createEstate {
+  margin-bottom: 10px;
+  margin-left: 3%;
+}
+
+#createEstate button {
+  background: rgba(7, 128, 7, 0.677);
+  color: white;
+}
+
+.hide {
+  display: none;
 }

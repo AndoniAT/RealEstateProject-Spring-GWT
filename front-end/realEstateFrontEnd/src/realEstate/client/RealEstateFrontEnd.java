@@ -4,9 +4,15 @@ import java.util.List;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.http.client.*;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -43,9 +49,40 @@ public class RealEstateFrontEnd implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		final TextBox nameField = new TextBox();
-		RootPanel.get("errorMessagePage").add(errorMessagePage);
-  	  	chargeEstates();
+        // Check the initial route when the page is charged
+        String initialToken = History.getToken();
+        if (initialToken.isEmpty()) {
+            // If there's no token, go to the home page by default
+            History.newItem("home");
+        } else {
+            handleRoute(initialToken); // Current token
+        }
+
+        History.addValueChangeHandler(new ValueChangeHandler<String>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<String> event) {
+                String token = event.getValue();
+                handleRoute(token);  // Manage new route
+            }
+        });
+
+        Button homeButton = new Button("Home", new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                History.newItem("home"); // Change to home
+            }
+        });
+
+        Button createEstateButton = new Button("Create Estate", new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                History.newItem("createEstate");
+            }
+        });
+
+        homeButton.addStyleName("homeBtn");
+        RootPanel.get("navBar").add(homeButton);
+        RootPanel.get("createEstate").add(createEstateButton);
 	}
 	
 	public void chargeEstates() {
@@ -253,6 +290,56 @@ public class RealEstateFrontEnd implements EntryPoint {
 			}
 			
 		});
+	}
+
+	
+	public void handleRoute(String token) {
+	    if (token.equals("home")) {
+	        showHomePage();
+	    } else if (token.equals("createEstate")) {
+	        showCreateEstatePage();
+	    } else {
+	        show404Page(); // NOT FOUND
+	    }
+	}
+
+	private void showHomePage() {
+		// HOME
+
+		Element createEstateEl = Document.get().createDivElement();
+		createEstateEl.setId("createEstate");
+		
+		Element estatesContainerEl = Document.get().createDivElement();
+		estatesContainerEl.setId("estatesContainer");
+		
+		Element homePageEl = Document.get().createDivElement();
+		homePageEl.setId("homePage");
+		
+		homePageEl.appendChild(createEstateEl);
+		homePageEl.appendChild(estatesContainerEl);
+
+		RootPanel.get().getElement().appendChild(homePageEl);
+		RootPanel.get("errorMessagePage").add(errorMessagePage);
+		RootPanel.get("createEstatePage").getElement().removeFromParent();
+  	  	chargeEstates();
+	}
+
+	private void showCreateEstatePage() {
+		RootPanel.get("homePage").getElement().removeFromParent();
+		
+		Element createEstatePageEl = Document.get().createDivElement();
+		createEstatePageEl.setId("createEstatePage");
+		Label l = new Label("This is the Create Estate Page");
+		RootPanel.get().getElement().appendChild(createEstatePageEl);
+
+		RootPanel.get("createEstatePage").add(l);
+
+	}
+
+	private void show404Page() {
+	    // Not found
+	    RootPanel.get().clear();
+	    RootPanel.get().add(new Label("404 - Page Not Found"));
 	}
 
 }
