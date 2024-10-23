@@ -18,16 +18,6 @@
     <url-pattern>/realestatefrontend/estate</url-pattern>
   </servlet-mapping>
 
-  <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>realEstate.server.GreetingServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/realestatefrontend/greet</url-pattern>
-  </servlet-mapping>
-  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>RealEstateFrontEnd.html</welcome-file>
